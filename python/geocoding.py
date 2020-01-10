@@ -14,8 +14,8 @@ def geocode(inputs):
     bin = inputs.get('bin', '')
 
     try:
-        #geo = g['BN'](bin=bin, mode_switch='X')
-        geo = g.BN(mode='extended', bin=bin)
+        geo = g['BN'](bin=bin, mode_switch='X')
+        #geo = g.BN(mode='extended', bin=bin)
         #print(geo)
     except GeosupportError as e:
         geo = e.result
@@ -29,7 +29,10 @@ def geo_parser(geo):
     tpad_bin = geo.get('TPAD New BIN', '')
     bbl = geo.get('BOROUGH BLOCK LOT (BBL)', '')
     bbl10 = bbl.get('BOROUGH BLOCK LOT (BBL)', '')
-    bin = geo.get('Building Identification Number (BIN)','')
+    bin = geo.get('Building Identification Number (BIN)', '')
+    identifiers = geo.get('LIST OF GEOGRAPHIC IDENTIFIERS', '')
+    identifiers_dict = identifiers[0]
+    tpad_bin_status = identifiers_dict.get('TPAD BIN Status', '')
 
     if bin in million_bins:
         print(bin + " in million_bins")
@@ -42,6 +45,9 @@ def geo_parser(geo):
         geo_bin = bin,
         geo_tpad_new_bin = tpad_bin,
         geo_tpad_new_bin_status = geo.get('TPAD New BIN Status', ''),
+        get_tpad_dm_bin_status = geo.get('TPAD BIN Status (for DM job)', ''),
+        geo_tpad_conflict_flag = geo.get('TPAD Conflict Flag', ''),
+        geo_tpad_bin_status = tpad_bin_status,
         geo_return_code = geo.get('Geosupport Return Code (GRC)', ''),
         geo_message = geo.get('Message', ''),
         geo_reason_code = geo.get('Reason Code', ''),
@@ -54,7 +60,7 @@ if __name__ == '__main__':
 
     # read building footprints in from CSV
     print('dataloading begins here ...')
-    df = pd.read_csv('input/building_footprints_small.csv')
+    df = pd.read_csv('input/building_footprints.csv')
 
     records = df.to_dict('records')
 
