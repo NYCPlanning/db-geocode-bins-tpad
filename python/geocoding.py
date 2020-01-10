@@ -31,13 +31,16 @@ def geo_parser(geo):
     bbl10 = bbl.get('BOROUGH BLOCK LOT (BBL)', '')
     bin = geo.get('Building Identification Number (BIN)', '')
     identifiers = geo.get('LIST OF GEOGRAPHIC IDENTIFIERS', '')
-    identifiers_dict = identifiers[0]
-    tpad_bin_status = identifiers_dict.get('TPAD BIN Status', '')
+    if identifiers:
+        identifiers_dict = identifiers[0]
+        tpad_bin_status = identifiers_dict.get('TPAD BIN Status', '')
+    else:
+        tpad_bin_status = " "
 
     if bin in million_bins:
         print(bin + " in million_bins")
 
-    if tpad_bin > " ":
+    if tpad_bin > " " or tpad_bin_status > " ":
         print(tpad_bin + ": there is a bin in tpad")
 
     return dict(
