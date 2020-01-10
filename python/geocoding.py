@@ -12,10 +12,11 @@ g = Geosupport()
 
 def geocode(inputs):
     bin = inputs.get('bin', '')
-    #print(bin)
 
     try:
-        geo = g['BN'](bin=bin, mode_switch='X')
+        #geo = g['BN'](bin=bin, mode_switch='X')
+        geo = g.BN(mode='extended', bin=bin)
+        #print(geo)
     except GeosupportError as e:
         geo = e.result
 
@@ -25,26 +26,25 @@ def geocode(inputs):
 
 def geo_parser(geo):
     million_bins = ['1000000', '2000000', '3000000', '4000000', '5000000']
-    bin = geo.get('Building Identification Number','')
     tpad_bin = geo.get('TPAD New BIN', '')
+    bbl = geo.get('BOROUGH BLOCK LOT (BBL)', '')
+    bbl10 = bbl.get('BOROUGH BLOCK LOT (BBL)', '')
+    bin = geo.get('Building Identification Number (BIN)','')
 
-    #if bin in million_bins or len(tpad_bin) > 0:
-    #if bin in million_bins or len(tpad_bin) > 0:
-    #if len(tpad_bin) > 0:
-    # Taking the individual borough, block, and lot fields since the
-    # combined BBL was making the insert blow up for some reason.
+    if bin in million_bins:
+        print(bin + " in million_bins")
+
+    if tpad_bin > " ":
+        print(tpad_bin + ": there is a bin in tpad")
+
     return dict(
-        geo_boro = geo.get('Borough Code', ''),
-        geo_block = geo.get('Tax Block', ''),
-        geo_lot = geo.get('Tax Lot', ''),
-        geo_bin = geo.get('Building Identification Number', ''),
-        geo_tpad_new_bin = geo.get('TPAD New BIN', ''),
+        geo_bbl = bbl10,
+        geo_bin = bin,
+        geo_tpad_new_bin = tpad_bin,
         geo_tpad_new_bin_status = geo.get('TPAD New BIN Status', ''),
         geo_return_code = geo.get('Geosupport Return Code (GRC)', ''),
         geo_message = geo.get('Message', ''),
         geo_reason_code = geo.get('Reason Code', ''),
-
-        #geo_bbl = geo.get('BOROUGH BLOCK LOT (BBL)', '')
     )
 
 if __name__ == '__main__':
@@ -57,7 +57,6 @@ if __name__ == '__main__':
     df = pd.read_csv('input/building_footprints_small.csv')
 
     records = df.to_dict('records')
-    print(df.head())
 
     print('dataloading finished, start geocoding ...')
 
@@ -68,7 +67,5 @@ if __name__ == '__main__':
     print('geocoding finished, dumping to postgres ...')
 
     df = pd.DataFrame(it)
-    print(df.head(100))
-    print(df.tail())
 
     df.to_sql('bin_geocode', engine, if_exists='replace', chunksize=10000)

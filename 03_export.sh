@@ -4,6 +4,6 @@ docker exec $DB_CONTAINER_NAME psql -h localhost -U postgres -c "\copy (SELECT *
                                 TO '/home/db-geocode-bins-tpad/output/bin_geocode.csv'
                                 DELIMITER ',' CSV HEADER;"
 
-docker exec $DB_CONTAINER_NAME psql -h localhost -U postgres -c "\copy (SELECT * FROM bin_not_in_tpad)
-                                TO '/home/db-geocode-bins-tpad/output/bin_not_in_tpad.csv'
+docker exec $DB_CONTAINER_NAME psql -h localhost -U postgres -c "\copy (SELECT * FROM bin_geocode_errors)
+                                TO '/home/db-geocode-bins-tpad/output/bin_geocode_errors.csv'
                                 DELIMITER ',' CSV HEADER;"
