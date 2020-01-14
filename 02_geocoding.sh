@@ -7,4 +7,5 @@ docker run -it --rm\
             --env-file .env\
             sptkl/docker-geosupport:19d bash -c "pip3 install -r python/requirements.txt; python3 python/geocoding.py"
 
-docker exec $DB_CONTAINER_NAME psql -U postgres -h localhost -f sql/bin_geocode_errors.sql
+docker exec $DB_CONTAINER_NAME psql -U postgres -h localhost -f sql/create_bin_geocode_tpad.sql
+docker exec $DB_CONTAINER_NAME psql -U postgres -h localhost -f sql/bin_geocode_tpad_errors.sql

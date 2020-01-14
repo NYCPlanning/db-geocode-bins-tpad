@@ -25,7 +25,7 @@ def geocode(inputs):
     return geo
 
 def geo_parser(geo):
-    million_bins = ['1000000', '2000000', '3000000', '4000000', '5000000']
+    #million_bins = ['1000000', '2000000', '3000000', '4000000', '5000000']
     tpad_bin = geo.get('TPAD New BIN', '')
     bbl = geo.get('BOROUGH BLOCK LOT (BBL)', '')
     bbl10 = bbl.get('BOROUGH BLOCK LOT (BBL)', '')
@@ -36,12 +36,6 @@ def geo_parser(geo):
         tpad_bin_status = identifiers_dict.get('TPAD BIN Status', '')
     else:
         tpad_bin_status = " "
-
-    if bin in million_bins:
-        print(bin + " in million_bins")
-
-    if tpad_bin > " " or tpad_bin_status > " ":
-        print(tpad_bin + ": there is a bin in tpad")
 
     return dict(
         geo_bbl = bbl10,
