@@ -42,7 +42,7 @@ def geo_parser(geo):
         geo_bin = bin,
         geo_tpad_new_bin = tpad_bin,
         geo_tpad_new_bin_status = geo.get('TPAD New BIN Status', ''),
-        get_tpad_dm_bin_status = geo.get('TPAD BIN Status (for DM job)', ''),
+        geo_tpad_dm_bin_status = geo.get('TPAD BIN Status (for DM job)', ''),
         geo_tpad_conflict_flag = geo.get('TPAD Conflict Flag', ''),
         geo_tpad_bin_status = tpad_bin_status,
         geo_return_code = geo.get('Geosupport Return Code (GRC)', ''),
