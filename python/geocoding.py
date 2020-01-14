@@ -46,7 +46,9 @@ def geo_parser(geo):
         geo_tpad_conflict_flag = geo.get('TPAD Conflict Flag', ''),
         geo_tpad_bin_status = tpad_bin_status,
         geo_return_code = geo.get('Geosupport Return Code (GRC)', ''),
+        geo_return_code_2 = geo.get('Geosupport Return Code 2 (GRC 2)', ''),
         geo_message = geo.get('Message', ''),
+        geo_message_2 = geo.get('Message 2', 'msg2 err'),
         geo_reason_code = geo.get('Reason Code', ''),
     )
 
