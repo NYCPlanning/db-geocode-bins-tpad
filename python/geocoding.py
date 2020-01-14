@@ -14,7 +14,8 @@ def geocode(inputs):
     bin = inputs.get('bin', '')
 
     try:
-        geo = g['BN'](bin=bin, mode_switch='X')
+        geo = g['BN'](bin=bin, mode='tpad')
+        #geo = g['BN'](bin=bin, mode_switch='X')
         #geo = g.BN(mode='extended', bin=bin)
         #print(geo)
     except GeosupportError as e:
