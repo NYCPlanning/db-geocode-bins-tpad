@@ -4,7 +4,6 @@
 
 <h4>Instructions:</h4>
 <ol>
-<li>Download all BINs from building footprints in CSV format, and put the file in the /input directory. Select only the BIN field&mdash;don't take any other fields.</li>
 <li>'sh 01_initialize.sh' to spin up a postgreSQL container</li>
 <li>'sh 02_geocoding.sh' to select and geocode BINs (Geosupport function BN)</li>
 <li>'sh 03_export.sh' to output the table of geocoded BINs</li>
