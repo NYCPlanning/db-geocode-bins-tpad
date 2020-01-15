@@ -58,9 +58,11 @@ if __name__ == '__main__':
     recipe_engine = create_engine(os.environ['RECIPE_ENGINE'])
     engine = create_engine(os.environ['BUILD_ENGINE'])
 
-    # read building footprints in from CSV
+    # get BINs from building footprints
     print('dataloading begins here ...')
-    df = pd.read_csv('input/building_footprints.csv')
+    #df = pd.read_csv('input/building_footprints.csv')
+    import_sql = f'''SELECT bin FROM doitt_buildingfootprints.latest;'''
+    df = pd.read_sql(import_sql, recipe_engine)
 
     records = df.to_dict('records')
 
@@ -74,4 +76,4 @@ if __name__ == '__main__':
 
     df = pd.DataFrame(it)
 
-    df.to_sql('bin_geocode', engine, if_exists='replace', chunksize=10000)
+    df.to_sql('building_footprints_geocoded', engine, if_exists='replace', chunksize=10000)
